@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>FlexGrid Demo</title>
+
+        <link rel="stylesheet" href="./dist/flexgrid.css" />
+        <style>
+            body {
+                background: #0F1D14;
+                color: #beffdc;
+            }
+            .container {
+                width: 400px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 4px;
+            }
+
+            .toolbar {
+                padding: 5px 10px;
+            }
+            .row-controls, .column-controls {
+                display: inline-flex;
+                align-items: center;
+                border-radius: 4px;
+                padding-left: 5px;
+            }
+            .row-control, .column-control {
+                border: 0;
+                border-left: 1px solid black;
+                background: transparent;
+                padding: 5px 10px;
+                color: inherit;
+                transition: 0.3s;
+                cursor: pointer;
+            }
+            .row-control:hover, .column-control:hover {
+                background: rgba(150, 150, 150, 0.1);
+            }
+            .btn {
+                border-radius: 4px;
+            }
+            .btn:hover {
+                background: rgba(0,0,0,0.1);
+            }
+
+            .flexgrid-grid {
+                background-color: #1e2c23;
+            }
+            .flexgrid-widget--inner {
+                background: #35443a;
+            }
+            .remove-widget {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="toolbar">
+                <div class="row-controls">
+                    row:
+                    <button class="row-control--add row-control">+</button>
+                    <button class="row-control--remove row-control">-</button>
+                </div>
+                <div class="column-controls">
+                    column:
+                    <button class="column-control--add column-control">+</button>
+                    <button class="column-control--remove column-control">-</button>
+                </div>
+                <button class="add-widget btn">+</button>
+            </div>
+            <div class="flexgrid"></div>
+        </div>
+
+        <script src="./dist/flexgrid.js"></script>
+        <script>
+            var example = document.querySelector('.flexgrid');
+
+            var fg = FlexGrid.init({
+                responsive: true,
+                customClass: {
+                    widget: 'blah',
+                    helper: 'blah',
+                    placeholder: 'blah'
+                }
+            }, example);
+            console.log(fg);
+
+            var template = '<span class="remove-widget"><i class="fa-solid fa-xmark"></i></span>';
+            var data = [
+                { x: 1, y: 1, width: 3, height: 6, template: template },
+                { x: 4, y: 1, width: 6, height: 4, template: template },
+                { x: 10, y: 1, width: 3, height: 4, template: template },
+                { x: 4, y: 5, width: 3, height: 5, template: template },
+                { x: 9, y: 5, width: 4, height: 6, template: template },
+                { x: 1, y: 7, width: 3, height: 6, template: template }
+            ];
+
+            example.FlexGrid.load(data);
+
+            var addRow = document.querySelector('.row-control--add');
+                addRow.addEventListener('click', function() {
+                    example.FlexGrid.addRow();
+                });
+            var removeRow = document.querySelector('.row-control--remove');
+                removeRow.addEventListener('click', function() {
+                    example.FlexGrid.removeRow();
+                });
+            var addColumn = document.querySelector('.column-control--add');
+                addColumn.addEventListener('click', function() {
+                    example.FlexGrid.addColumn();
+                });
+            var removeColumn = document.querySelector('.column-control--remove');
+                removeColumn.addEventListener('click', function() {
+                    example.FlexGrid.removeColumn();
+                });
+
+            var addWidget = document.querySelector('.add-widget');
+                addWidget.addEventListener('click', function() {
+                    var min = 3;
+                    var max = 6;
+                    var width = Math.floor(Math.random() * (max - min + 1)) + min;
+                    var height = Math.floor(Math.random() * (max - min + 1)) + min;
+                    example.FlexGrid.addWidget({
+                        width: 3,
+                        height: 3,
+                        template: '<span class="remove-widget"><i class="fa-solid fa-xmark"></i></span>',
+                        customClass: {
+                            widget: 'my-widget'
+                        }
+                    });
+                });
+
+            document.addEventListener('click', function(e) {
+                var target = e.target.closest('.remove-widget');
+                if (target) {
+                    var widget = target.closest('.flexgrid-widget');
+                    example.FlexGrid.removeWidget(widget);
+                }
+            });
+        </script>
+    </body>
+</html>

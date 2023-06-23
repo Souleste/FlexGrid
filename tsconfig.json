@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "rootDir": "src",
+        "outDir": "lib",
+        "target": "es5",
+        "module": "es6",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": false,
+        "moduleResolution": "node",
+        "typeRoots": [ "src/@types", "node_modules/@types" ]
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
